@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty MD Intelligence v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#faf9f7; --surface:#fff; --surface2:#f5f3ef;
+    --border:#e8e3db; --border2:#d6cfc4;
+    --accent:#b07240; --accent-soft:#f7ede0;
+    --text:#1c1916; --text2:#4a4540; --muted:#9a9088;
+    --up:#3a7d52; --up-soft:#eaf3ec;
+    --down:#b84040; --down-soft:#faeaea;
+    --gold:#c9973a;
+    --shadow:0 2px 8px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.5;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+  .logo-en{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--accent);}
+  .logo-by{font-size:11px;color:var(--muted);margin-left:10px;}
+  .live-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--up);background:var(--up-soft);padding:3px 9px;border-radius:20px;}
+  .live-dot{width:5px;height:5px;border-radius:50%;background:var(--up);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .date-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .date-bar-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+  .date-inputs{display:flex;align-items:center;gap:8px;}
+  .date-input{border:1px solid var(--border2);border-radius:6px;padding:5px 10px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s;cursor:pointer;}
+  .date-input:focus{border-color:var(--accent);}
+  .date-sep{font-size:12px;color:var(--muted);}
+  .date-apply-btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:opacity .15s;white-space:nowrap;}
+  .date-apply-btn:hover{opacity:.85;}
+  .date-note{font-size:11px;color:var(--muted);font-style:italic;}
+  .price-rt-badge{margin-left:auto;font-size:11px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:3px 10px;border-radius:20px;white-space:nowrap;}
+  .cat-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;overflow-x:auto;}
+  .cat-tab{padding:11px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .18s;}
+  .cat-tab:hover{color:var(--text);}
+  .cat-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700;}
+  .kpi-strip{background:var(--accent);padding:9px 28px;display:flex;gap:28px;overflow-x:auto;}
+  .kpi-item{display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;}
+  .kpi-label{font-size:11px;color:rgba(255,255,255,.7);}
+  .kpi-val{font-size:13px;font-weight:700;color:#fff;}
+  .kpi-div{width:1px;height:14px;background:rgba(255,255,255,.25);flex-shrink:0;}
+  .page{padding:20px 28px;display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1280px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);animation:fadeUp .35s ease both;}
+  .card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.08s}
+  .card:nth-child(3){animation-delay:.12s}.card:nth-child(4){animation-delay:.16s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .card-head{padding:13px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .card-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .date-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;}
+  .date-badge.sample{background:var(--surface2);color:var(--muted);border:1px solid var(--border2);}
+  .date-badge.live{background:var(--accent-soft);color:var(--accent);}
+  .date-badge.realtime{background:var(--up-soft);color:var(--up);}
+  .card-hint{font-size:11px;color:var(--muted);font-style:italic;}
+  .card-body{padding:14px 18px;}
+  .card-body-flush{padding:0;}
+  .loading-wrap{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--muted);font-size:13px;}
+  .spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .rank-list{display:flex;flex-direction:column;}
+  .rank-row{display:flex;align-items:center;gap:11px;padding:9px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+  .rank-row:last-child{border-bottom:none;}
+  .rank-row:hover{background:var(--surface2);}
+  .rank-row.active{background:var(--accent-soft);}
+  .rk-no{font-family:'Cormorant Garamond',serif;font-size:17px;width:20px;text-align:center;color:var(--border2);flex-shrink:0;font-weight:600;}
+  .rk-no.gold{color:var(--gold);}.rk-no.silver{color:#909090;}.rk-no.bronze{color:#a07050;}
+  .rk-info{flex:1;min-width:0;}
+  .rk-brand{font-size:10px;color:var(--muted);margin-bottom:1px;display:flex;align-items:center;gap:5px;}
+  .rk-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rk-right{text-align:right;flex-shrink:0;}
+  .rk-price{font-size:13px;font-weight:700;}
+  .rk-unit{font-size:10px;color:var(--muted);margin-top:1px;}
+  .badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;}
+  .b-hot{background:#fff0e0;color:var(--accent);}.b-new{background:#e8f0fe;color:#3a6fd8;}.b-up{background:var(--up-soft);color:var(--up);}
+  .kw-list{display:flex;flex-direction:column;gap:5px;}
+  .kw-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;transition:background .15s;}
+  .kw-row:hover{background:var(--surface2);}
+  .kw-no{font-size:11px;font-weight:700;width:16px;text-align:center;color:var(--muted);}
+  .kw-no.hot{color:var(--accent);}
+  .kw-word{flex:1;font-size:13px;font-weight:500;}
+  .kw-bar-wrap{width:60px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+  .kw-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#d4956a);border-radius:2px;}
+  .kw-pct{font-size:11px;font-weight:700;width:50px;text-align:right;}
+  .c-up{color:var(--up);}.c-dn{color:var(--down);}.c-flat{color:var(--muted);}
+  .rv-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;gap:8px;color:var(--muted);font-size:13px;text-align:center;}
+  .rv-empty-icon{font-size:28px;opacity:.5;}
+  .rv-product{font-size:12px;font-weight:700;color:var(--accent);padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid var(--border);}
+  .sentiment-bar{display:flex;height:5px;border-radius:4px;overflow:hidden;margin-bottom:8px;}
+  .sb-pos{background:var(--up);}.sb-neg{background:var(--down);}.sb-neu{background:var(--border2);}
+  .sentiment-legend{display:flex;gap:14px;margin-bottom:14px;}
+  .sl-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
+  .sl-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .rv-cards{display:flex;flex-direction:column;gap:8px;}
+  .rv-card{padding:10px 12px;border-radius:7px;border-left:3px solid var(--border2);background:var(--surface2);}
+  .rv-card.pos{border-left-color:var(--up);}.rv-card.neg{border-left-color:var(--down);}
+  .rv-tag{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
+  .rv-card.pos .rv-tag{color:var(--up);}.rv-card.neg .rv-tag{color:var(--down);}.rv-card .rv-tag{color:var(--muted);}
+  .rv-text{font-size:12px;line-height:1.65;color:var(--text2);}
+  .rv-n{font-size:10px;color:var(--muted);margin-top:4px;}
+  .ptable-scroll{overflow-x:auto;}
+  table.ptable{width:100%;border-collapse:collapse;}
+  .ptable thead th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:10px 14px;border-bottom:2px solid var(--border);text-align:left;white-space:nowrap;background:var(--surface2);}
+  .ptable tbody td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  .ptable tbody tr:last-child td{border-bottom:none;}
+  .ptable tbody tr:hover td{background:var(--surface2);}
+  .pd-name{font-weight:600;font-size:13px;}.pd-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+  .p-best{font-weight:700;color:var(--up);}.p-mid{font-weight:500;}.p-high{color:var(--muted);}
+  .unit-chip{display:inline-block;background:var(--accent-soft);color:var(--accent);border:1px solid #e8c89a;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;}
+  .gap-chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;}
+  .gap-dn{background:var(--down-soft);color:var(--down);}.gap-up{background:var(--up-soft);color:var(--up);}
+  ::-webkit-scrollbar{width:4px;height:4px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+</style>
+</head>
+<body>
+<header>
+  <div><span class="logo-en">Beauty MD Intelligence</span><span class="logo-by">by 조병근</span></div>
+  <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+</header>
+<div class="date-bar">
+  <span class="date-bar-label">📅 조회 기간</span>
+  <div class="date-inputs">
+    <input type="date" class="date-input" id="startDate">
+    <span class="date-sep">~</span>
+    <input type="date" class="date-input" id="endDate">
+  </div>
+  <button class="date-apply-btn" onclick="applyDate()">조회</button>
+  <span class="date-note">※ 키워드·랭킹에 적용 | 가격은 실시간</span>
+  <div class="price-rt-badge">💰 가격 비교 — 실시간 기준</div>
+</div>
+<nav class="cat-nav">
+  <div class="cat-tab active" onclick="switchCat(this,'skincare')">🌿 스킨케어</div>
+  <div class="cat-tab" onclick="switchCat(this,'mask')">🧖 마스크팩</div>
+  <div class="cat-tab" onclick="switchCat(this,'suncare')">☀️ 선케어</div>
+  <div class="cat-tab" onclick="switchCat(this,'cleansing')">🧴 클렌징</div>
+  <div class="cat-tab" onclick="switchCat(this,'makeup')">💄 메이크업</div>
+</nav>
+<div class="kpi-strip">
+  <div class="kpi-item"><span class="kpi-label">모니터링 상품</span><span class="kpi-val">247개</span></div>
+  <div class="kpi-div"></div>
+  <div class="kpi-item"><span class="kpi-label">급등 키워드</span><span class="kpi-val" id="kpiHot">—</span></div>
+  <div class="kpi-div"></div>
+  <div class="kpi-item"><span class="kpi-label">올리브영 vs 네이버 최저가</span><span class="kpi-val">평균 -21%</span></div>
+  <div class="kpi-div"></div>
+  <div class="kpi-item"><span class="kpi-label">조회 기간</span><span class="kpi-val" id="kpiPeriod">샘플 데이터</span></div>
+</div>
+<div class="page">
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">🏆 올리브영 TOP 10</div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span class="date-badge sample" id="rankDateLabel">샘플 데이터</span>
+        <span class="card-hint">클릭 → 리뷰</span>
+      </div>
+    </div>
+    <div class="card-body-flush"><div class="rank-list" id="rankList"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="card-title">💬 AI 리뷰 인사이트</div></div>
+    <div class="card-body" id="reviewPanel">
+      <div class="rv-empty"><div class="rv-empty-icon">👈</div>랭킹에서 상품을 클릭하면<br>AI 리뷰 분석이 표시돼요</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">📈 네이버 트렌드 키워드</div>
+      <span class="date-badge sample" id="kwDateLabel">샘플 데이터</span>
+    </div>
+    <div class="card-body" id="kwPanel"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">💰 채널별 가격 비교 · 단위가격</div>
+      <span class="date-badge realtime">실시간</span>
+    </div>
+    <div class="card-body-flush"><div class="ptable-scroll"><table class="ptable" id="priceTable"></table></div></div>
+  </div>
+</div>
+<script>
+const WORKER_URL="https://beauty-md-dashboard.byungkuen.workers.dev";
+let currentCat='skincare',currentStart='',currentEnd='',isLive=false;
+function initDates(){const today=new Date(),prior=new Date();prior.setDate(today.getDate()-28);const fmt=d=>d.toISOString().split('T')[0];document.getElementById('startDate').value=fmt(prior);document.getElementById('endDate').value=fmt(today);document.getElementById('endDate').max=document.getElementById('startDate').max=fmt(today);}
+function setDateBadge(id,start,end){const el=document.getElementById(id);if(start&&end){el.textContent=`${start} ~ ${end}`;el.className='date-badge live';}else{el.textContent='샘플 데이터';el.className='date-badge sample';}}
+async function applyDate(){const s=document.getElementById('startDate').value,e=document.getElementById('endDate').value;if(!s||!e){alert('날짜를 모두 선택해주세요.');return;}if(s>e){alert('시작일이 종료일보다 늦을 수 없어요.');return;}currentStart=s;currentEnd=e;isLive=true;setDateBadge('rankDateLabel',s,e);setDateBadge('kwDateLabel',s,e);document.getElementById('kpiPeriod').textContent=`${s} ~ ${e}`;renderRanking(DATA[currentCat].ranking);await loadKeywords();}
+async function loadKeywords(){const panel=document.getElementById('kwPanel');panel.innerHTML='<div class="loading-wrap"><div class="spinner"></div>키워드 불러오는 중...</div>';try{const res=await fetch(`${WORKER_URL}/?category=${currentCat}&startDate=${currentStart}&endDate=${currentEnd}&timeUnit=week`);const data=await res.json();if(data.error){panel.innerHTML=`<div style="color:var(--down);padding:20px;font-size:12px">⚠️ ${data.error}</div>`;return;}renderKeywords(data.keywords);const cnt=data.keywords.filter(k=>k.dir==='up').length;document.getElementById('kpiHot').textContent=`${cnt}개 ▲`;}catch(e){panel.innerHTML=`<div style="color:var(--down);padding:20px;font-size:12px">⚠️ 연결 오류: ${e.message}</div>`;}}
+function renderKeywords(kws){if(!kws||!kws.length){document.getElementById('kwPanel').innerHTML='<div style="color:var(--muted);padding:20px;text-align:center">데이터 없음</div>';return;}const maxR=Math.max(...kws.map(k=>k.ratio));document.getElementById('kwPanel').innerHTML='<div class="kw-list">'+kws.map((k,i)=>{const barW=maxR>0?Math.round(k.ratio/maxR*100):0;const pctStr=k.dir==='up'?`▲${k.pct}%`:k.dir==='dn'?`▼${Math.abs(k.pct)}%`:'→ 0%';const pctCls=k.dir==='up'?'c-up':k.dir==='dn'?'c-dn':'c-flat';return`<div class="kw-row"><span class="kw-no ${i<3?'hot':''}">${i+1}</span><span class="kw-word">${k.word}</span><div class="kw-bar-wrap"><div class="kw-bar-fill" style="width:${barW}%"></div></div><span class="kw-pct ${pctCls}">${pctStr}</span></div>`;}).join('')+'</div>';}
+function switchCat(el,cat){document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentCat=cat;renderPrices(DATA[cat].prices);renderRanking(DATA[cat].ranking);document.getElementById('reviewPanel').innerHTML='<div class="rv-empty"><div class="rv-empty-icon">👈</div>랭킹에서 상품을 클릭하면<br>AI 리뷰 분석이 표시돼요</div>';if(isLive){setDateBadge('rankDateLabel',currentStart,currentEnd);setDateBadge('kwDateLabel',currentStart,currentEnd);loadKeywords();}else{setDateBadge('rankDateLabel','','');setDateBadge('kwDateLabel','','');document.getElementById('kpiPeriod').textContent='샘플 데이터';renderKeywords(DATA[cat].sampleKeywords);}}
+function renderRanking(items){const medals=['gold','silver','bronze'];const bm={hot:'<span class="badge b-hot">🔥 HOT</span>',new:'<span class="badge b-new">✨ NEW</span>',up:'<span class="badge b-up">▲ UP</span>'};document.getElementById('rankList').innerHTML=items.map((p,i)=>`<div class="rank-row" onclick="showReview(${i})" id="row-${i}"><div class="rk-no ${medals[i]||''}">${i+1}</div><div class="rk-info"><div class="rk-brand">${p.brand} ${bm[p.badge]||''}</div><div class="rk-name">${p.name}</div></div><div class="rk-right"><div class="rk-price">${p.price}</div><div class="rk-unit">${p.unit}</div></div></div>`).join('');}
+function showReview(idx){const p=DATA[currentCat].ranking[idx];document.querySelectorAll('.rank-row').forEach(r=>r.classList.remove('active'));document.getElementById('row-'+idx).classList.add('active');document.getElementById('reviewPanel').innerHTML=`<div class="rv-product">📦 ${p.brand} · ${p.name}</div><div class="sentiment-bar"><div class="sb-pos" style="width:${p.pos}%"></div><div class="sb-neg" style="width:${p.neg}%"></div><div class="sb-neu" style="width:${p.neu}%"></div></div><div class="sentiment-legend"><div class="sl-item"><div class="sl-dot" style="background:var(--up)"></div>긍정 ${p.pos}%</div><div class="sl-item"><div class="sl-dot" style="background:var(--down)"></div>부정 ${p.neg}%</div><div class="sl-item"><div class="sl-dot" style="background:var(--border2)"></div>중립 ${p.neu}%</div></div><div class="rv-cards"><div class="rv-card pos"><div class="rv-tag">✅ 긍정</div><div class="rv-text">${p.posText}</div><div class="rv-n">${p.total.toLocaleString()}건 중 ${p.posN.toLocaleString()}건</div></div><div class="rv-card neg"><div class="rv-tag">❌ 부정</div><div class="rv-text">${p.negText}</div><div class="rv-n">${p.negN.toLocaleString()}건</div></div><div class="rv-card"><div class="rv-tag">➡️ 중립</div><div class="rv-text">${p.neuText}</div><div class="rv-n">${p.neuN.toLocaleString()}건</div></div></div>`;}
+function renderPrices(prices){document.getElementById('priceTable').innerHTML=`<thead><tr><th>상품</th><th>올리브영</th><th>쿠팡</th><th>네이버 최저가</th><th>단위가격</th><th>OLY vs 최저가</th></tr></thead><tbody>${prices.map(p=>{const nums=[p.oly,p.coup,p.naver].map(v=>parseInt(v.replace(/,/g,'')));const min=Math.min(...nums);const cls=v=>parseInt(v.replace(/,/g,''))===min?'p-best':parseInt(v.replace(/,/g,''))>min*1.05?'p-high':'p-mid';return`<tr><td><div class="pd-name">${p.name}</div><div class="pd-sub">${p.sub}</div></td><td><span class="${cls(p.oly)}">${p.oly}</span></td><td><span class="${cls(p.coup)}">${p.coup}</span></td><td><span class="${cls(p.naver)}">${p.naver}</span></td><td><span class="unit-chip">${p.unit}</span></td><td><span class="gap-chip gap-${p.gapDir}">${p.gap}</span></td></tr>`;}).join('')}</tbody>`;}
+const DATA={skincare:{sampleKeywords:[{word:"나이아신아마이드",ratio:100,pct:16,dir:"up"},{word:"비타민C 세럼",ratio:23.6,pct:-2,dir:"dn"},{word:"레티놀 세럼",ratio:17.4,pct:31,dir:"up"},{word:"히알루론산 크림",ratio:14.6,pct:-7,dir:"dn"},{word:"저자극 토너",ratio:3.5,pct:620,dir:"up"}],ranking:[{brand:'아누아',name:'어성초 77% 토너패드 130매',price:'27,000원',unit:'207원/매',badge:'hot',pos:74,neg:14,neu:12,posText:'피부 진정 효과와 저자극이 핵심 구매 동기. 130매 대용량 가성비가 재구매율 상승에 기여.',negText:'용기 불편함, 패드 두께 얇음. 향 호불호.',neuText:'경쟁 제품 대비 차별점 인지 부족.',posN:2107,negN:398,neuN:342,total:2847},{brand:'티르티르',name:'마스크핏 레드쿠션 21호 18g',price:'19,900원',unit:'1,106원/g',badge:'up',pos:81,neg:9,neu:10,posText:'커버력·지속력 극찬. 붉은기 커버 최강.',negText:'리필 가격 부담, 색상 다양성 부족.',neuText:'색상이 피부톤에 안 맞는 경우 실망.',posN:3240,negN:360,neuN:400,total:4000},{brand:'라운드랩',name:'독도 토너 350ml',price:'13,500원',unit:'39원/ml',badge:'up',pos:68,neg:18,neu:14,posText:'가성비 최강. 350ml 대용량.',negText:'향 없어 허전. 보습력 다소 부족.',neuText:'레이어링 추천 의견 다수.',posN:1428,negN:378,neuN:294,total:2100},{brand:'아비브',name:'쑥 진정 토너패드 200매',price:'24,000원',unit:'120원/매',badge:'new',pos:77,neg:11,neu:12,posText:'쑥 성분 진정 효과 체감율 높음.',negText:'일부 민감성 피부 알레르기 보고.',neuText:'보습력은 별도 제품 필요.',posN:924,negN:132,neuN:144,total:1200},{brand:'메디힐',name:'NMF 아쿠아링 마스크팩 10매',price:'9,900원',unit:'990원/매',badge:'up',pos:72,neg:15,neu:13,posText:'즉각 수분 공급 만족도 높음.',negText:'마스크 사이즈 불만.',neuText:'수분 지속 4~5시간으로 짧음.',posN:1512,negN:315,neuN:273,total:2100}],prices:[{name:'아누아 토너패드',sub:'130매',oly:'27,000',coup:'23,500',naver:'22,800',unit:'175원/매',gap:'-16%',gapDir:'dn'},{name:'라운드랩 독도토너',sub:'350ml',oly:'13,500',coup:'14,200',naver:'13,200',unit:'38원/ml',gap:'-2%',gapDir:'dn'},{name:'티르티르 레드쿠션',sub:'18g',oly:'19,900',coup:'18,500',naver:'18,200',unit:'1,011원/g',gap:'-9%',gapDir:'dn'},{name:'아비브 쑥토너패드',sub:'200매',oly:'24,000',coup:'21,000',naver:'20,500',unit:'103원/매',gap:'-15%',gapDir:'dn'},{name:'메디힐 NMF마스크',sub:'10매',oly:'9,900',coup:'10,500',naver:'9,600',unit:'960원/매',gap:'-3%',gapDir:'dn'}]},mask:{sampleKeywords:[{word:"시트마스크",ratio:100,pct:12,dir:"up"},{word:"수분마스크",ratio:72,pct:8,dir:"up"},{word:"진정마스크팩",ratio:58,pct:-5,dir:"dn"},{word:"메디힐 마스크",ratio:44,pct:22,dir:"up"},{word:"모공 마스크팩",ratio:31,pct:-3,dir:"dn"}],ranking:[{brand:'메디힐',name:'에센셜 마스크팩 10+1매',price:'8,900원',unit:'809원/매',badge:'hot',pos:79,neg:11,neu:10,posText:'가성비 대명사. 10+1 구성.',negText:'세안 후 흡수력 떨어짐.',neuText:'라인업 선택 어려움.',posN:4200,negN:583,neuN:531,total:5314},{brand:'닥터자르트',name:'시카페어 세럼마스크 5매',price:'14,000원',unit:'2,800원/매',badge:'up',pos:82,neg:8,neu:10,posText:'진정 성분 예민 피부 인기.',negText:'가격 대비 매수 적음.',neuText:'효과 즉각적이지 않음.',posN:1640,negN:160,neuN:200,total:2000},{brand:'메디큐브',name:'부스팅 콜라겐 마스크 4매',price:'12,000원',unit:'3,000원/매',badge:'new',pos:75,neg:13,neu:12,posText:'콜라겐 성분 탄력감 체감.',negText:'가격 높음.',neuText:'지속력 검증 필요.',posN:750,negN:130,neuN:120,total:1000},{brand:'SNP',name:'버드네스트 앰플마스크 10매',price:'9,500원',unit:'950원/매',badge:'up',pos:70,neg:16,neu:14,posText:'합리적 가격 영양 공급.',negText:'향이 강함.',neuText:'효과 미미 일부 의견.',posN:700,negN:160,neuN:140,total:1000},{brand:'이니스프리',name:'슈퍼화산송이 마스크 10매',price:'10,000원',unit:'1,000원/매',badge:'up',pos:73,neg:14,neu:13,posText:'모공 케어 스테디셀러.',negText:'건성 피부 건조할 수 있음.',neuText:'효과 유지 기간 짧음.',posN:730,negN:140,neuN:130,total:1000}],prices:[{name:'메디힐 에센셜',sub:'10+1매',oly:'8,900',coup:'8,200',naver:'7,900',unit:'718원/매',gap:'-11%',gapDir:'dn'},{name:'닥터자르트 시카페어',sub:'5매',oly:'14,000',coup:'13,500',naver:'13,000',unit:'2,600원/매',gap:'-7%',gapDir:'dn'},{name:'메디큐브 콜라겐',sub:'4매',oly:'12,000',coup:'11,500',naver:'11,200',unit:'2,800원/매',gap:'-7%',gapDir:'dn'},{name:'SNP 버드네스트',sub:'10매',oly:'9,500',coup:'9,000',naver:'8,800',unit:'880원/매',gap:'-7%',gapDir:'dn'},{name:'이니스프리 화산송이',sub:'10매',oly:'10,000',coup:'9,500',naver:'9,300',unit:'930원/매',gap:'-7%',gapDir:'dn'}]},suncare:{sampleKeywords:[{word:"선크림 추천",ratio:100,pct:55,dir:"up"},{word:"저자극 선크림",ratio:82,pct:41,dir:"up"},{word:"톤업 선크림",ratio:68,pct:35,dir:"up"},{word:"선스틱",ratio:44,pct:18,dir:"up"},{word:"선쿠션",ratio:28,pct:-3,dir:"dn"}],ranking:[{brand:'라운드랩',name:'자작나무 수분선크림 50ml',price:'12,000원',unit:'240원/ml',badge:'hot',pos:83,neg:8,neu:9,posText:'백탁 없이 가볍게 발림. 저자극.',negText:'지속력 3~4시간 짧음.',neuText:'재도포 불편.',posN:4980,negN:480,neuN:540,total:6000},{brand:'체이싱래빗',name:'올어바웃 블러 퍼플선크림 35g',price:'15,000원',unit:'429원/g',badge:'new',pos:77,neg:12,neu:11,posText:'보정+자외선 차단 동시.',negText:'보정 효과 기대보다 약함.',neuText:'향 호불호.',posN:770,negN:120,neuN:110,total:1000},{brand:'아누아',name:'어성초 토닝선크림 50ml',price:'16,000원',unit:'320원/ml',badge:'up',pos:76,neg:13,neu:11,posText:'미백+선케어 이중 효과.',negText:'백탁 약간 있음.',neuText:'용량 아쉬움.',posN:760,negN:130,neuN:110,total:1000},{brand:'VT',name:'리들샷 선크림 50ml',price:'17,000원',unit:'340원/ml',badge:'up',pos:74,neg:14,neu:12,posText:'탄력 케어 동시. 촉촉한 마무리.',negText:'가격 높음.',neuText:'효과 체감 시간 필요.',posN:740,negN:140,neuN:120,total:1000},{brand:'미샤',name:'올어라운드 세이프 선밀크 70ml',price:'9,000원',unit:'129원/ml',badge:'up',pos:71,neg:16,neu:13,posText:'가성비 대표. 기본 기능 충실.',negText:'제형 묽어 흘러내림.',neuText:'지속력 개선 필요.',posN:710,negN:160,neuN:130,total:1000}],prices:[{name:'라운드랩 자작나무',sub:'50ml',oly:'12,000',coup:'10,500',naver:'10,200',unit:'204원/ml',gap:'-15%',gapDir:'dn'},{name:'체이싱래빗 퍼플',sub:'35g',oly:'15,000',coup:'14,000',naver:'13,500',unit:'386원/g',gap:'-10%',gapDir:'dn'},{name:'아누아 토닝선크림',sub:'50ml',oly:'16,000',coup:'15,000',naver:'14,500',unit:'290원/ml',gap:'-9%',gapDir:'dn'},{name:'VT 리들샷',sub:'50ml',oly:'17,000',coup:'16,000',naver:'15,500',unit:'310원/ml',gap:'-9%',gapDir:'dn'},{name:'미샤 세이프선밀크',sub:'70ml',oly:'9,000',coup:'8,200',naver:'7,900',unit:'113원/ml',gap:'-12%',gapDir:'dn'}]},cleansing:{sampleKeywords:[{word:"저자극 클렌저",ratio:100,pct:33,dir:"up"},{word:"클렌징오일",ratio:78,pct:25,dir:"up"},{word:"약산성 클렌저",ratio:62,pct:20,dir:"up"},{word:"클렌징폼",ratio:48,pct:15,dir:"up"},{word:"무향 클렌저",ratio:22,pct:-4,dir:"dn"}],ranking:[{brand:'세타필',name:'순한 클렌징 로션 500ml',price:'19,900원',unit:'40원/ml',badge:'hot',pos:85,neg:7,neu:8,posText:'민감성 피부 1위. 피부과 추천.',negText:'가격 다소 높음.',neuText:'세정력 약하다는 일부 의견.',posN:5100,negN:420,neuN:480,total:6000},{brand:'아누아',name:'어성초 순한 클렌징폼 150ml',price:'11,000원',unit:'73원/ml',badge:'up',pos:78,neg:12,neu:10,posText:'세안 후 당김 없음. 약산성.',negText:'거품 적음.',neuText:'향 호불호.',posN:780,negN:120,neuN:100,total:1000},{brand:'이니스프리',name:'그린티 폼클렌저 150ml',price:'9,000원',unit:'60원/ml',badge:'up',pos:74,neg:14,neu:12,posText:'산뜻한 세안감. 스테디셀러.',negText:'건성 피부 건조할 수 있음.',neuText:'제형 변경 후 아쉬움.',posN:740,negN:140,neuN:120,total:1000},{brand:'DHC',name:'딥 클렌징 오일 200ml',price:'25,000원',unit:'125원/ml',badge:'up',pos:80,neg:10,neu:10,posText:'모공 속 노폐물 제거 탁월.',negText:'가격 높음.',neuText:'지성 피부 과한 영양감.',posN:800,negN:100,neuN:100,total:1000},{brand:'라운드랩',name:'독도 클렌징폼 200ml',price:'10,000원',unit:'50원/ml',badge:'new',pos:76,neg:13,neu:11,posText:'독도 미네랄 진정 세안.',negText:'세정력 약하다는 의견.',neuText:'향 없어 아쉬움.',posN:760,negN:130,neuN:110,total:1000}],prices:[{name:'세타필 클렌징로션',sub:'500ml',oly:'19,900',coup:'17,500',naver:'16,900',unit:'34원/ml',gap:'-15%',gapDir:'dn'},{name:'아누아 클렌징폼',sub:'150ml',oly:'11,000',coup:'10,000',naver:'9,700',unit:'65원/ml',gap:'-12%',gapDir:'dn'},{name:'이니스프리 그린티',sub:'150ml',oly:'9,000',coup:'8,300',naver:'8,000',unit:'53원/ml',gap:'-11%',gapDir:'dn'},{name:'DHC 클렌징오일',sub:'200ml',oly:'25,000',coup:'23,000',naver:'22,000',unit:'110원/ml',gap:'-12%',gapDir:'dn'},{name:'라운드랩 독도폼',sub:'200ml',oly:'10,000',coup:'9,200',naver:'8,900',unit:'45원/ml',gap:'-11%',gapDir:'dn'}]},makeup:{sampleKeywords:[{word:"쿠션 추천",ratio:100,pct:48,dir:"up"},{word:"립틴트 추천",ratio:76,pct:36,dir:"up"},{word:"세미매트 파운데이션",ratio:55,pct:29,dir:"up"},{word:"아이라이너",ratio:42,pct:22,dir:"up"},{word:"컨실러",ratio:28,pct:-6,dir:"dn"}],ranking:[{brand:'티르티르',name:'마스크핏 레드쿠션 21호 18g',price:'19,900원',unit:'1,106원/g',badge:'hot',pos:81,neg:9,neu:10,posText:'커버력·지속력 극찬.',negText:'색상 다양성 부족.',neuText:'리필 가격 부담.',posN:3240,negN:360,neuN:400,total:4000},{brand:'클리오',name:'프로 아이 팔레트 에어',price:'24,000원',unit:'—',badge:'new',pos:78,neg:11,neu:11,posText:'발색력·지속력 호평.',negText:'팔레트 크기 큼.',neuText:'일부 색상 활용도 낮음.',posN:780,negN:110,neuN:110,total:1000},{brand:'롬앤',name:'쥬시 래스팅 틴트',price:'9,500원',unit:'—',badge:'up',pos:80,neg:10,neu:10,posText:'촉촉한 착용감. 색상 풍부.',negText:'식사 후 지속력 약해짐.',neuText:'실물과 색상 차이.',posN:800,negN:100,neuN:100,total:1000},{brand:'헤라',name:'블랙 쿠션 파운데이션 23호',price:'48,000원',unit:'2,400원/g',badge:'up',pos:83,neg:8,neu:9,posText:'최고 커버력. 8시간 지속.',negText:'가격 높음.',neuText:'색상 선택 어려움.',posN:830,negN:80,neuN:90,total:1000},{brand:'페리페라',name:'잉크 무드 매트 틴트',price:'7,500원',unit:'—',badge:'up',pos:76,neg:13,neu:11,posText:'가성비 최강 틴트.',negText:'건조한 느낌.',neuText:'사진과 발색 차이.',posN:760,negN:130,neuN:110,total:1000}],prices:[{name:'티르티르 레드쿠션',sub:'18g',oly:'19,900',coup:'18,500',naver:'18,200',unit:'1,011원/g',gap:'-9%',gapDir:'dn'},{name:'클리오 아이팔레트',sub:'단품',oly:'24,000',coup:'22,500',naver:'22,000',unit:'—',gap:'-8%',gapDir:'dn'},{name:'롬앤 쥬시틴트',sub:'—',oly:'9,500',coup:'8,900',naver:'8,700',unit:'—',gap:'-8%',gapDir:'dn'},{name:'헤라 블랙쿠션',sub:'20g',oly:'48,000',coup:'45,000',naver:'43,500',unit:'2,175원/g',gap:'-9%',gapDir:'dn'},{name:'페리페라 매트틴트',sub:'—',oly:'7,500',coup:'7,000',naver:'6,800',unit:'—',gap:'-9%',gapDir:'dn'}]}};
+initDates();
+renderPrices(DATA['skincare'].prices);
+renderRanking(DATA['skincare'].ranking);
+renderKeywords(DATA['skincare'].sampleKeywords);
+</script>
+</body>
+</html>
