@@ -6,6 +6,49 @@
 <title>Beauty MD Intelligence v4</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
+    @media (max-width: 768px) {
+    .page {
+      grid-template-columns: 1fr;
+      padding: 12px 16px;
+    }
+    header {
+      padding: 0 16px;
+    }
+    .date-bar {
+      padding: 10px 16px;
+      gap: 8px;
+    }
+    .price-rt-badge {
+      margin-left: 0;
+    }
+    .cat-nav {
+      padding: 0 16px;
+    }
+    .kpi-strip {
+      padding: 9px 16px;
+      gap: 16px;
+    }
+    .rank-row {
+      padding: 9px 14px;
+    }
+    .card-head {
+      padding: 11px 14px 9px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .card-body {
+      padding: 12px 14px;
+    }
+    .ptable thead th,
+    .ptable tbody td {
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+    .date-note {
+      display: none;
+    }
+  }
+
   :root {
     --bg:#faf9f7; --surface:#fff; --surface2:#f5f3ef;
     --border:#e8e3db; --border2:#d6cfc4;
