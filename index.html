@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beauty A.I. v6</title>
+<title>Beauty A.I.</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -158,9 +158,9 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
   </nav>
   <div class="date-select-wrap">
     <select class="date-select" id="weekSelect" onchange="onWeekChange()">
-      <option value="1">최근 1주</option>
+      <option value="1" selected>최근 1주</option>
       <option value="2">최근 2주</option>
-      <option value="4" selected>최근 4주</option>
+      <option value="4">최근 4주</option>
       <option value="8">최근 8주</option>
       <option value="12">최근 12주</option>
     </select>
@@ -218,11 +218,19 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 <script>
 const WORKER_URL = "https://beauty-md-dashboard.byungkuen.workers.dev";
 let currentCat = 'skincare';
-let currentWeeks = 4;
+let currentWeeks = 1;
 
 // ─── 날짜 유틸 ───────────────────────
 function getToday(){ return new Date().toISOString().split('T')[0]; }
 function getPrior(days){ const d=new Date(); d.setDate(d.getDate()-days); return d.toISOString().split('T')[0]; }
+
+function fmtShort(dateStr){
+  const d=new Date(dateStr);
+  const yy=String(d.getFullYear()).slice(2);
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  return `${yy}.${mm}.${dd}`;
+}
 
 function fmtKor(dateStr){
   const d=new Date(dateStr);
@@ -238,10 +246,26 @@ function fmtNow(){
   return `${m}/${d} ${h}:${mi} 기준`;
 }
 
+function getWeekLabel(weeks){
+  const days=weeks*7;
+  const start=getPrior(days), end=getToday();
+  return `최근 ${weeks}주 (${fmtShort(start)}~${fmtShort(end)})`;
+}
+
+function updateSelectOptions(){
+  const sel=document.getElementById('weekSelect');
+  [1,2,4,8,12].forEach(w=>{
+    const days=w*7;
+    const start=getPrior(days), end=getToday();
+    const opt=sel.querySelector(`option[value="${w}"]`);
+    if(opt) opt.textContent=`최근 ${w}주 (${fmtShort(start)}~${fmtShort(end)})`;
+  });
+}
+
 function updateKpiDate(){
   const days=currentWeeks*7;
   const start=getPrior(days), end=getToday();
-  document.getElementById('kpiDate').textContent=`${fmtKor(start)} ~ ${fmtKor(end)}`;
+  document.getElementById('kpiDate').textContent=`${fmtShort(start)} ~ ${fmtShort(end)}`;
 }
 
 // ─── 이벤트 ───────────────────────────
@@ -377,7 +401,7 @@ async function loadKeywords(){
 
   const days=currentWeeks*7;
   const start=getPrior(days), end=getToday();
-  const startKor=fmtKor(start), endKor=fmtKor(end);
+  const startStr=fmtShort(start), endStr=fmtShort(end);
 
   try{
     const res=await fetch(`${WORKER_URL}/?category=${currentCat}&startDate=${start}&endDate=${end}&timeUnit=week`);
@@ -390,10 +414,10 @@ async function loadKeywords(){
     renderKeywords(data.keywords);
     const cnt=data.keywords.filter(k=>k.dir==='up').length;
     document.getElementById('kpiHot').textContent=`${cnt}개 ▲`;
-    badge.textContent=`실시간 · ${startKor}~${endKor}`;
+    badge.textContent=`실시간 · ${startStr}~${endStr}`;
   }catch(e){
     renderKeywords(DATA[currentCat].sampleKeywords);
-    badge.textContent=`샘플 · ${startKor}~${endKor}`;
+    badge.textContent=`샘플 · ${startStr}~${endStr}`;
     const cnt=DATA[currentCat].sampleKeywords.filter(k=>k.dir==='up').length;
     document.getElementById('kpiHot').textContent=`${cnt}개 ▲`;
   }
@@ -590,6 +614,7 @@ const DATA={
 };
 
 // ─── 초기화 ───────────────────────────
+updateSelectOptions();
 updateKpiDate();
 renderRanking(DATA['skincare'].ranking);
 renderPrices(DATA['skincare'].prices);
