@@ -21,7 +21,7 @@
   body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.5;}
 
 /* HEADER */
-header{background:var(–surface);border-bottom:1px solid var(–border);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:var(–shadow);}
+header{background:var(–surface);border-bottom:1px solid var(–border);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;}
 .logo-en{font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:600;color:var(–accent);}
 .logo-by{font-size:11px;color:var(–muted);margin-left:8px;}
 .live-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(–up);background:var(–up-soft);padding:3px 9px;border-radius:20px;}
@@ -136,6 +136,11 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 
 .divider{height:8px;background:var(–surface2);}
 .bottom-pad{height:40px;}
+.kw-legend{font-size:11px;color:var(–muted);padding:0 0 8px 2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.kw-legend span{display:flex;align-items:center;gap:3px;}
+.kw-legend .up{color:var(–up);font-weight:700;}
+.kw-legend .dn{color:var(–down);font-weight:700;}
+.kw-legend .flat{color:var(–muted);font-weight:700;}
 </style>
 
 </head>
@@ -207,6 +212,13 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
   <div class="section-title">
     📈 네이버 트렌드 키워드
     <span class="section-badge badge-live" id="kwBadge">실시간</span>
+  </div>
+  <div class="kw-legend">
+    <span><span class="up">▲</span> 검색량 증가</span>
+    <span style="color:var(--border2)">·</span>
+    <span><span class="dn">▼</span> 검색량 감소</span>
+    <span style="color:var(--border2)">·</span>
+    <span><span class="flat">→</span> 변화없음</span>
   </div>
   <div class="kw-card" id="kwList">
     <div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>
