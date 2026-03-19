@@ -15,32 +15,45 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .live-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:#3a7d52;background:#eaf3ec;padding:3px 9px;border-radius:20px;}
 .live-dot{width:5px;height:5px;border-radius:50%;background:#3a7d52;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.top-bar{background:#fff;border-bottom:1px solid #e8e3db;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
-.cat-nav{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;flex:1;}
-.cat-nav::-webkit-scrollbar{display:none;}
-.cat-tab{padding:10px 11px;font-size:12px;font-weight:500;color:#9a9088;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .18s;flex-shrink:0;}
+
+/* 카테고리만 있는 탭 */
+.cat-bar{background:#fff;border-bottom:1px solid #e8e3db;padding:0 16px;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.cat-bar::-webkit-scrollbar{display:none;}
+.cat-tab{padding:10px 13px;font-size:13px;font-weight:500;color:#9a9088;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .18s;flex-shrink:0;}
 .cat-tab.active{color:#b07240;border-bottom-color:#b07240;font-weight:700;}
-.date-select-wrap{flex-shrink:0;padding-left:10px;border-left:1px solid #e8e3db;position:relative;}
-.date-select-wrap::after{content:'▼';font-size:7px;color:#b07240;position:absolute;right:6px;top:50%;transform:translateY(-50%);pointer-events:none;}
-.date-select{border:1px solid #d6cfc4;border-radius:6px;padding:4px 20px 4px 7px;font-size:10px;font-weight:600;font-family:'Noto Sans KR',sans-serif;color:#b07240;background:#f7ede0;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;max-width:130px;}
+
+/* KPI */
 .kpi-strip{background:#b07240;padding:8px 16px;display:flex;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .kpi-strip::-webkit-scrollbar{display:none;}
 .kpi-item{display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;}
 .kpi-label{font-size:10px;color:rgba(255,255,255,.75);}
 .kpi-val{font-size:11px;font-weight:700;color:#fff;}
 .kpi-div{width:1px;height:12px;background:rgba(255,255,255,.25);flex-shrink:0;}
+
 .section{padding:14px 16px;}
+
+/* 섹션 타이틀 */
 .section-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9a9088;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;}
 .section-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;}
 .badge-live{background:#eaf3ec;color:#3a7d52;}
-.badge-time{background:#f5f3ef;color:#9a9088;border:1px solid #d6cfc4;}
+.badge-time{background:#f5f3ef;color:#9a9088;border:1px solid #d6cfc4;font-size:10px;}
+
+/* 키워드 섹션 헤더 — 타이틀 + 날짜 선택 한 줄 */
+.kw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap;}
+.kw-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9a9088;}
+.kw-controls{display:flex;align-items:center;gap:6px;}
+.date-select-wrap{position:relative;}
+.date-select-wrap::after{content:‘▼’;font-size:7px;color:#b07240;position:absolute;right:6px;top:50%;transform:translateY(-50%);pointer-events:none;}
+.date-select{border:1px solid #d6cfc4;border-radius:6px;padding:3px 20px 3px 7px;font-size:10px;font-weight:600;font-family:‘Noto Sans KR’,sans-serif;color:#b07240;background:#f7ede0;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;max-width:120px;}
+
+/* RANK LIST */
 .rank-list{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e8e3db;}
 .rank-item{border-bottom:1px solid #e8e3db;}
 .rank-item:last-child{border-bottom:none;}
 .rank-row{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;transition:background .15s;}
 .rank-row:active{background:#f5f3ef;}
 .rank-row.open{background:#f7ede0;}
-.rk-no{font-family:'Cormorant Garamond',serif;font-size:17px;width:20px;text-align:center;color:#d6cfc4;flex-shrink:0;font-weight:600;}
+.rk-no{font-family:‘Cormorant Garamond’,serif;font-size:17px;width:20px;text-align:center;color:#d6cfc4;flex-shrink:0;font-weight:600;}
 .rk-no.gold{color:#c9973a;}.rk-no.silver{color:#909090;}.rk-no.bronze{color:#a07050;}
 .rk-info{flex:1;min-width:0;}
 .rk-brand{font-size:10px;color:#9a9088;margin-bottom:2px;display:flex;align-items:center;gap:5px;}
@@ -50,6 +63,8 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .rk-unit{font-size:10px;color:#9a9088;margin-top:1px;}
 .rk-chevron{font-size:11px;color:#9a9088;flex-shrink:0;transition:transform .2s;}
 .rank-row.open .rk-chevron{transform:rotate(180deg);}
+
+/* INSIGHT */
 .insight-panel{display:none;padding:12px 14px;background:#f5f3ef;border-top:1px solid #e8e3db;}
 .insight-panel.open{display:block;animation:slideDown .2s ease;}
 @keyframes slideDown{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
@@ -67,6 +82,8 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .rv-text{font-size:12px;line-height:1.6;color:#4a4540;}
 .badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;}
 .b-hot{background:#fff0e0;color:#b07240;}.b-new{background:#e8f0fe;color:#3a6fd8;}.b-up{background:#eaf3ec;color:#3a7d52;}
+
+/* PRICE */
 .price-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e8e3db;}
 .price-item{padding:12px 14px;border-bottom:1px solid #e8e3db;}
 .price-item:last-child{border-bottom:none;}
@@ -87,11 +104,13 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .price-meta{display:flex;align-items:center;gap:7px;}
 .gap-chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;}
 .gap-dn{background:#faeaea;color:#b84040;}.gap-up{background:#eaf3ec;color:#3a7d52;}
+
+/* KEYWORD */
 .kw-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e8e3db;}
 .kw-legend{font-size:11px;color:#9a9088;padding:0 0 8px 2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.kw-legend .leg-up{color:#3a7d52;font-weight:700;}
-.kw-legend .leg-dn{color:#b84040;font-weight:700;}
-.kw-legend .leg-flat{color:#9a9088;font-weight:700;}
+.leg-up{color:#3a7d52;font-weight:700;}
+.leg-dn{color:#b84040;font-weight:700;}
+.leg-flat{color:#9a9088;font-weight:700;}
 .kw-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #e8e3db;}
 .kw-item:last-child{border-bottom:none;}
 .kw-no{font-size:11px;font-weight:700;width:16px;text-align:center;color:#9a9088;flex-shrink:0;}
@@ -107,6 +126,7 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .divider{height:8px;background:#f5f3ef;}
 .bottom-pad{height:40px;}
 </style>
+
 </head>
 <body>
 
@@ -115,23 +135,14 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
   <div class="live-badge"><div class="live-dot"></div>LIVE</div>
 </header>
 
-<div class="top-bar">
-  <nav class="cat-nav">
-    <div class="cat-tab active" onclick="switchCat(this,'skincare')">🌿 스킨케어</div>
-    <div class="cat-tab" onclick="switchCat(this,'mask')">🧖 마스크팩</div>
-    <div class="cat-tab" onclick="switchCat(this,'suncare')">☀️ 선케어</div>
-    <div class="cat-tab" onclick="switchCat(this,'cleansing')">🧴 클렌징</div>
-    <div class="cat-tab" onclick="switchCat(this,'makeup')">💄 메이크업</div>
-  </nav>
-  <div class="date-select-wrap">
-    <select class="date-select" id="weekSelect" onchange="onWeekChange()">
-      <option value="1" selected>최근 1주</option>
-      <option value="2">최근 2주</option>
-      <option value="4">최근 4주</option>
-      <option value="8">최근 8주</option>
-      <option value="12">최근 12주</option>
-    </select>
-  </div>
+<!-- 카테고리 탭만 — 날짜 선택 없음 -->
+
+<div class="cat-bar">
+  <div class="cat-tab active" onclick="switchCat(this,'skincare')">🌿 스킨케어</div>
+  <div class="cat-tab" onclick="switchCat(this,'mask')">🧖 마스크팩</div>
+  <div class="cat-tab" onclick="switchCat(this,'suncare')">☀️ 선케어</div>
+  <div class="cat-tab" onclick="switchCat(this,'cleansing')">🧴 클렌징</div>
+  <div class="cat-tab" onclick="switchCat(this,'makeup')">💄 메이크업</div>
 </div>
 
 <div class="kpi-strip">
@@ -140,19 +151,21 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
   <div class="kpi-item"><span class="kpi-label">급등 키워드</span><span class="kpi-val" id="kpiHot">—</span></div>
   <div class="kpi-div"></div>
   <div class="kpi-item"><span class="kpi-label">OLY vs 최저가</span><span class="kpi-val">평균 -21%</span></div>
-  <div class="kpi-div"></div>
-  <div class="kpi-item"><span class="kpi-label">조회 기간</span><span class="kpi-val" id="kpiDate">—</span></div>
 </div>
+
+<!-- 올리브영 TOP 10 — 실시간 시간 표기 -->
 
 <div class="section">
   <div class="section-title">
     🏆 올리브영 TOP 10
-    <span class="section-badge badge-live" id="rankBadge">샘플 데이터</span>
+    <span class="section-badge badge-time" id="rankTimeLabel">—</span>
   </div>
   <div class="rank-list" id="rankList"></div>
 </div>
 
 <div class="divider"></div>
+
+<!-- 가격 비교 — 실시간 시간 표기 -->
 
 <div class="section">
   <div class="section-title">
@@ -164,10 +177,23 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 
 <div class="divider"></div>
 
+<!-- 키워드 — 날짜 선택 드롭다운 여기에 -->
+
 <div class="section">
-  <div class="section-title">
-    📈 네이버 트렌드 키워드
-    <span class="section-badge badge-live" id="kwBadge">실시간</span>
+  <div class="kw-header">
+    <span class="kw-title">📈 네이버 트렌드 키워드</span>
+    <div class="kw-controls">
+      <div class="date-select-wrap">
+        <select class="date-select" id="weekSelect" onchange="onWeekChange()">
+          <option value="1" selected>최근 1주</option>
+          <option value="2">최근 2주</option>
+          <option value="4">최근 4주</option>
+          <option value="8">최근 8주</option>
+          <option value="12">최근 12주</option>
+        </select>
+      </div>
+      <span class="section-badge badge-live" id="kwBadge">실시간</span>
+    </div>
   </div>
   <div class="kw-legend">
     <span><span class="leg-up">▲</span> 검색량 증가</span>
@@ -192,30 +218,17 @@ function getToday(){ return new Date().toISOString().split('T')[0]; }
 function getPrior(days){ const d=new Date(); d.setDate(d.getDate()-days); return d.toISOString().split('T')[0]; }
 function fmtShort(s){
   const d=new Date(s);
-  const yy=String(d.getFullYear()).slice(2);
-  const mm=String(d.getMonth()+1).padStart(2,'0');
-  const dd=String(d.getDate()).padStart(2,'0');
-  return `${yy}.${mm}.${dd}`;
+  return `${String(d.getFullYear()).slice(2)}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
 }
 function fmtNow(){
   const n=new Date();
   return `${String(n.getMonth()+1).padStart(2,'0')}/${String(n.getDate()).padStart(2,'0')} ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} 기준`;
 }
 
-function getDateRange(){ const days=currentWeeks*7; return {start:getPrior(days),end:getToday()}; }
-
-function updateAll(){
-  const {start,end}=getDateRange();
-  const label=`${fmtShort(start)} ~ ${fmtShort(end)}`;
-  document.getElementById('kpiDate').textContent=label;
-  document.getElementById('rankBadge').textContent=label;
-  updateSelectOptions();
-}
-
 function updateSelectOptions(){
   const sel=document.getElementById('weekSelect');
   [1,2,4,8,12].forEach(w=>{
-    const s=getPrior(w*7),e=getToday();
+    const s=getPrior(w*7), e=getToday();
     const opt=sel.querySelector(`option[value="${w}"]`);
     if(opt) opt.textContent=`최근 ${w}주 (${fmtShort(s)}~${fmtShort(e)})`;
   });
@@ -223,7 +236,6 @@ function updateSelectOptions(){
 
 function onWeekChange(){
   currentWeeks=parseInt(document.getElementById('weekSelect').value);
-  updateAll();
   loadKeywords();
 }
 
@@ -295,7 +307,9 @@ function coupURL(n){return`https://www.coupang.com/np/search?q=${encodeURICompon
 function naverURL(n){return`https://search.shopping.naver.com/search/all?query=${encodeURIComponent(n)}`;}
 
 function renderPrices(prices){
-  document.getElementById('priceTimeLabel').textContent=fmtNow();
+  const t=fmtNow();
+  document.getElementById('priceTimeLabel').textContent=t;
+  document.getElementById('rankTimeLabel').textContent=t;
   document.getElementById('priceList').innerHTML=prices.map(p=>{
     const nums=[p.oly,p.coup,p.naver].map(v=>parseInt(v.replace(/,/g,'')));
     const min=Math.min(...nums);
@@ -336,8 +350,7 @@ async function loadKeywords(){
   const list=document.getElementById('kwList');
   const badge=document.getElementById('kwBadge');
   list.innerHTML='<div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>';
-  const {start,end}=getDateRange();
-  const label=`실시간 · ${fmtShort(start)}~${fmtShort(end)}`;
+  const start=getPrior(currentWeeks*7), end=getToday();
   try{
     const res=await fetch(`${WORKER_URL}/?category=${currentCat}&startDate=${start}&endDate=${end}&timeUnit=week`);
     const data=await res.json();
@@ -345,7 +358,7 @@ async function loadKeywords(){
     renderKeywords(data.keywords);
     const cnt=data.keywords.filter(k=>k.dir==='up').length;
     document.getElementById('kpiHot').textContent=`${cnt}개 ▲`;
-    badge.textContent=label;
+    badge.textContent=`실시간 · ${fmtShort(start)}~${fmtShort(end)}`;
   }catch(e){
     renderKeywords(DATA[currentCat].sampleKeywords);
     badge.textContent=`샘플 · ${fmtShort(start)}~${fmtShort(end)}`;
@@ -526,7 +539,6 @@ const DATA={
 
 // 초기화
 updateSelectOptions();
-updateAll();
 renderRanking(DATA['skincare'].ranking);
 renderPrices(DATA['skincare'].prices);
 loadKeywords();
