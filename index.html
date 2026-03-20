@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beauty A.I.</title>
+<title>Shopping A.I.</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -30,13 +30,13 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .section-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;}
 .badge-live{background:#eaf3ec;color:#3a7d52;}
 .badge-time{background:#f5f3ef;color:#9a9088;border:1px solid #d6cfc4;}
-
-/* 쇼핑 TOP 10 */
 .shop-list{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e8e3db;}
-.shop-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #e8e3db;text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent;}
+.shop-item{border-bottom:1px solid #e8e3db;}
 .shop-item:last-child{border-bottom:none;}
-.shop-item:active{background:#f5f3ef;}
-.shop-no{font-family:‘Cormorant Garamond’,serif;font-size:17px;width:20px;text-align:center;color:#d6cfc4;flex-shrink:0;font-weight:600;}
+.shop-row{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;transition:background .15s;}
+.shop-row:active{background:#f5f3ef;}
+.shop-row.open{background:#f7ede0;}
+.shop-no{font-family:'Cormorant Garamond',serif;font-size:17px;width:20px;text-align:center;color:#d6cfc4;flex-shrink:0;font-weight:600;}
 .shop-no.gold{color:#c9973a;}.shop-no.silver{color:#909090;}.shop-no.bronze{color:#a07050;}
 .shop-info{flex:1;min-width:0;}
 .shop-brand{font-size:10px;color:#9a9088;margin-bottom:2px;}
@@ -44,28 +44,19 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 .shop-right{text-align:right;flex-shrink:0;}
 .shop-price{font-size:13px;font-weight:700;color:#b07240;}
 .shop-link{font-size:10px;color:#9a9088;margin-top:2px;}
+.shop-chevron{font-size:11px;color:#9a9088;flex-shrink:0;transition:transform .2s;}
+.shop-row.open .shop-chevron{transform:rotate(180deg);}
 
-/* 키워드 */
-.kw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap;}
-.kw-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9a9088;}
-.kw-controls{display:flex;align-items:center;gap:6px;}
-.date-select-wrap{position:relative;}
-.date-select-wrap::after{content:‘▼’;font-size:7px;color:#b07240;position:absolute;right:6px;top:50%;transform:translateY(-50%);pointer-events:none;}
-.date-select{border:1px solid #d6cfc4;border-radius:6px;padding:3px 20px 3px 7px;font-size:10px;font-weight:600;font-family:‘Noto Sans KR’,sans-serif;color:#b07240;background:#f7ede0;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;max-width:120px;}
-.kw-legend{font-size:11px;color:#9a9088;padding:0 0 8px 2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.leg-up{color:#3a7d52;font-weight:700;}
-.leg-dn{color:#b84040;font-weight:700;}
-.leg-flat{color:#9a9088;font-weight:700;}
-.kw-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e8e3db;}
-.kw-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #e8e3db;}
-.kw-item:last-child{border-bottom:none;}
-.kw-no{font-size:11px;font-weight:700;width:16px;text-align:center;color:#9a9088;flex-shrink:0;}
-.kw-no.hot{color:#b07240;}
-.kw-word{flex:1;font-size:13px;font-weight:500;}
-.kw-bar-wrap{width:40px;height:3px;background:#e8e3db;border-radius:2px;overflow:hidden;flex-shrink:0;}
-.kw-bar-fill{height:100%;background:linear-gradient(90deg,#b07240,#d4956a);border-radius:2px;}
-.kw-pct{font-size:11px;font-weight:700;width:46px;text-align:right;flex-shrink:0;}
-.c-up{color:#3a7d52;}.c-dn{color:#b84040;}.c-flat{color:#9a9088;}
+/* AI 패널 */
+.ai-panel{display:none;padding:14px 16px;background:#f5f3ef;border-top:1px solid #e8e3db;}
+.ai-panel.open{display:block;animation:slideDown .2s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.ai-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#b07240;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ai-text{font-size:13px;line-height:1.7;color:#4a4540;white-space:pre-wrap;}
+.ai-loading{display:flex;align-items:center;gap:8px;color:#9a9088;font-size:12px;}
+.ai-spinner{width:14px;height:14px;border:2px solid #e8e3db;border-top-color:#b07240;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+.ai-link{display:inline-block;margin-top:10px;font-size:11px;color:#3a7d52;text-decoration:none;font-weight:600;}
+
 .loading-wrap{display:flex;align-items:center;justify-content:center;padding:28px;gap:10px;color:#9a9088;font-size:13px;}
 .spinner{width:18px;height:18px;border:2px solid #e8e3db;border-top-color:#b07240;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -77,27 +68,26 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
 <body>
 
 <header>
-  <div><span class="logo-en">Beauty A.I.</span><span class="logo-by">by 조병근</span></div>
+  <div><span class="logo-en">Shopping A.I.</span><span class="logo-by">by 조병근</span></div>
   <div class="live-badge"><div class="live-dot"></div>LIVE</div>
 </header>
 
 <div class="cat-bar">
-  <div class="cat-tab active" onclick="switchCat(this,'skincare')">🌿 스킨케어</div>
-  <div class="cat-tab" onclick="switchCat(this,'mask')">🧖 마스크팩</div>
-  <div class="cat-tab" onclick="switchCat(this,'suncare')">☀️ 선케어</div>
-  <div class="cat-tab" onclick="switchCat(this,'cleansing')">🧴 클렌징</div>
-  <div class="cat-tab" onclick="switchCat(this,'makeup')">💄 메이크업</div>
+  <div class="cat-tab active" onclick="switchCat(this,'fashion')">👗 패션</div>
+  <div class="cat-tab" onclick="switchCat(this,'electronics')">📱 전자기기</div>
+  <div class="cat-tab" onclick="switchCat(this,'kitchen')">🍳 주방</div>
+  <div class="cat-tab" onclick="switchCat(this,'living')">🏠 리빙</div>
+  <div class="cat-tab" onclick="switchCat(this,'beauty')">💄 뷰티</div>
+  <div class="cat-tab" onclick="switchCat(this,'food')">🍎 식품</div>
 </div>
 
 <div class="kpi-strip">
-  <div class="kpi-item"><span class="kpi-label">모니터링</span><span class="kpi-val">247개</span></div>
+  <div class="kpi-item"><span class="kpi-label">카테고리</span><span class="kpi-val">6개</span></div>
   <div class="kpi-div"></div>
-  <div class="kpi-item"><span class="kpi-label">급등 키워드</span><span class="kpi-val" id="kpiHot">—</span></div>
+  <div class="kpi-item"><span class="kpi-label">모니터링</span><span class="kpi-val">60개 상품</span></div>
   <div class="kpi-div"></div>
   <div class="kpi-item"><span class="kpi-label">업데이트</span><span class="kpi-val" id="kpiTime">—</span></div>
 </div>
-
-<!-- 네이버 쇼핑 TOP 10 -->
 
 <div class="section">
   <div class="section-title">
@@ -109,156 +99,107 @@ header{background:#fff;border-bottom:1px solid #e8e3db;padding:0 20px;height:52p
   </div>
 </div>
 
-<div class="divider"></div>
-
-<!-- 네이버 트렌드 키워드 -->
-
-<div class="section">
-  <div class="kw-header">
-    <span class="kw-title">📈 네이버 트렌드 키워드</span>
-    <div class="kw-controls">
-      <div class="date-select-wrap">
-        <select class="date-select" id="weekSelect" onchange="onWeekChange()">
-          <option value="1" selected>최근 1주</option>
-          <option value="2">최근 2주</option>
-          <option value="4">최근 4주</option>
-          <option value="8">최근 8주</option>
-          <option value="12">최근 12주</option>
-        </select>
-      </div>
-      <span class="section-badge badge-live" id="kwBadge">실시간</span>
-    </div>
-  </div>
-  <div class="kw-legend">
-    <span><span class="leg-up">▲</span> 검색량 증가</span>
-    <span>·</span>
-    <span><span class="leg-dn">▼</span> 검색량 감소</span>
-    <span>·</span>
-    <span><span class="leg-flat">→</span> 변화없음</span>
-  </div>
-  <div class="kw-card" id="kwList">
-    <div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>
-  </div>
-</div>
-
 <div class="bottom-pad"></div>
 
 <script>
-const WORKER_URL = "https://beauty-md-dashboard.byungkuen.workers.dev";
-let currentCat = 'skincare';
-let currentWeeks = 1;
+const WORKER_URL = "https://shopping-ai.byungkuen.workers.dev";
+let currentCat = 'fashion';
+let analyzing = {};
 
-function getToday(){ return new Date().toISOString().split('T')[0]; }
-function getPrior(days){ const d=new Date(); d.setDate(d.getDate()-days); return d.toISOString().split('T')[0]; }
-function fmtShort(s){
-  const d=new Date(s);
-  return `${String(d.getFullYear()).slice(2)}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-}
 function fmtNow(){
   const n=new Date();
   return `${String(n.getMonth()+1).padStart(2,'0')}/${String(n.getDate()).padStart(2,'0')} ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')} 기준`;
 }
 
-function updateSelectOptions(){
-  const sel=document.getElementById('weekSelect');
-  [1,2,4,8,12].forEach(w=>{
-    const s=getPrior(w*7), e=getToday();
-    const opt=sel.querySelector(`option[value="${w}"]`);
-    if(opt) opt.textContent=`최근 ${w}주 (${fmtShort(s)}~${fmtShort(e)})`;
-  });
-}
-
-function onWeekChange(){
-  currentWeeks=parseInt(document.getElementById('weekSelect').value);
-  loadKeywords();
-}
-
-function switchCat(el,cat){
+function switchCat(el, cat){
   document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  currentCat=cat;
+  currentCat = cat;
+  analyzing = {};
   loadShopping();
-  loadKeywords();
 }
 
-// 네이버 쇼핑 TOP 10
 async function loadShopping(){
-  const list=document.getElementById('shopList');
-  const timeLabel=document.getElementById('shopTimeLabel');
-  const kpiTime=document.getElementById('kpiTime');
-  list.innerHTML='<div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>';
-  const now=fmtNow();
-  timeLabel.textContent=now;
-  kpiTime.textContent=now;
-  try{
-    const res=await fetch(`${WORKER_URL}/?type=shopping&category=${currentCat}`);
-    const data=await res.json();
-    if(data.error||!data.items||!data.items.length){
-      list.innerHTML=`<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ 데이터를 불러올 수 없습니다</div>`;
+  const list = document.getElementById('shopList');
+  const timeLabel = document.getElementById('shopTimeLabel');
+  const kpiTime = document.getElementById('kpiTime');
+  list.innerHTML = '<div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>';
+  const now = fmtNow();
+  timeLabel.textContent = now;
+  kpiTime.textContent = now;
+  try {
+    const res = await fetch(`${WORKER_URL}/?type=shopping&category=${currentCat}`);
+    const data = await res.json();
+    if(data.error || !data.items || !data.items.length){
+      list.innerHTML = '<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ 데이터를 불러올 수 없습니다</div>';
       return;
     }
     renderShopping(data.items);
-  }catch(e){
-    list.innerHTML=`<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ 연결 오류</div>`;
+  } catch(e){
+    list.innerHTML = '<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ 연결 오류</div>';
   }
 }
 
 function renderShopping(items){
-  const medals=['gold','silver','bronze'];
-  document.getElementById('shopList').innerHTML=items.map((p,i)=>`
-    <a class="shop-item" href="${p.link}" target="_blank">
-      <div class="shop-no ${medals[i]||''}">${i+1}</div>
-      <div class="shop-info">
-        <div class="shop-brand">${p.brand}</div>
-        <div class="shop-name">${p.name}</div>
+  const medals = ['gold','silver','bronze'];
+  document.getElementById('shopList').innerHTML = items.map((p,i) => `
+    <div class="shop-item" id="sitem-${i}">
+      <div class="shop-row" onclick="toggleAI(${i}, '${p.name.replace(/'/g,"\\'")}', '${p.link}')">
+        <div class="shop-no ${medals[i]||''}">${i+1}</div>
+        <div class="shop-info">
+          <div class="shop-brand">${p.brand}</div>
+          <div class="shop-name">${p.name}</div>
+        </div>
+        <div class="shop-right">
+          <div class="shop-price">${p.price}</div>
+          <div class="shop-link">🔗 네이버쇼핑</div>
+        </div>
+        <div class="shop-chevron">▼</div>
       </div>
-      <div class="shop-right">
-        <div class="shop-price">${p.price}</div>
-        <div class="shop-link">🔗 네이버쇼핑</div>
+      <div class="ai-panel" id="ai-${i}">
+        <div class="ai-label">🤖 A.I. 분석</div>
+        <div class="ai-text" id="ai-text-${i}"></div>
+        <a class="ai-link" href="${p.link}" target="_blank">→ 네이버쇼핑에서 보기</a>
       </div>
-    </a>`).join('');
+    </div>`).join('');
 }
 
-// 네이버 트렌드 키워드
-async function loadKeywords(){
-  const list=document.getElementById('kwList');
-  const badge=document.getElementById('kwBadge');
-  list.innerHTML='<div class="loading-wrap"><div class="spinner"></div>불러오는 중...</div>';
-  const start=getPrior(currentWeeks*7), end=getToday();
-  try{
-    const res=await fetch(`${WORKER_URL}/?type=keyword&category=${currentCat}&startDate=${start}&endDate=${end}&timeUnit=week`);
-    const data=await res.json();
-    if(data.error){
-      list.innerHTML=`<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ ${data.error}</div>`;
-      badge.textContent='오류';
+async function toggleAI(idx, name, link){
+  const row = document.querySelector(`#sitem-${idx} .shop-row`);
+  const panel = document.getElementById(`ai-${idx}`);
+  const textEl = document.getElementById(`ai-text-${idx}`);
+  const isOpen = panel.classList.contains('open');
+
+  document.querySelectorAll('.shop-row').forEach(r=>r.classList.remove('open'));
+  document.querySelectorAll('.ai-panel').forEach(p=>p.classList.remove('open'));
+
+  if(!isOpen){
+    row.classList.add('open');
+    panel.classList.add('open');
+
+    if(analyzing[idx]){
       return;
     }
-    renderKeywords(data.keywords);
-    const cnt=data.keywords.filter(k=>k.dir==='up').length;
-    document.getElementById('kpiHot').textContent=`${cnt}개 ▲`;
-    badge.textContent=`실시간 · ${fmtShort(start)}~${fmtShort(end)}`;
-  }catch(e){
-    list.innerHTML=`<div style="color:#b84040;padding:20px;font-size:12px;text-align:center">⚠️ 연결 오류</div>`;
-    badge.textContent='오류';
+
+    if(textEl.textContent && textEl.textContent.length > 10){
+      return;
+    }
+
+    analyzing[idx] = true;
+    textEl.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>AI가 분석 중입니다...</div>';
+
+    try {
+      const res = await fetch(`${WORKER_URL}/?type=analyze&product=${encodeURIComponent(name)}`);
+      const data = await res.json();
+      textEl.textContent = data.analysis || '분석 실패';
+    } catch(e){
+      textEl.textContent = '분석 중 오류가 발생했습니다.';
+    }
+    analyzing[idx] = false;
   }
 }
 
-function renderKeywords(kws){
-  if(!kws||!kws.length){document.getElementById('kwList').innerHTML='<div style="color:#9a9088;padding:20px;text-align:center">데이터 없음</div>';return;}
-  const list=kws.slice(0,10);
-  const maxR=Math.max(...list.map(k=>k.ratio));
-  document.getElementById('kwList').innerHTML=list.map((k,i)=>{
-    const barW=maxR>0?Math.round(k.ratio/maxR*100):0;
-    const pctStr=k.dir==='up'?`▲${k.pct}%`:k.dir==='dn'?`▼${Math.abs(k.pct)}%`:'→ 0%';
-    const pctCls=k.dir==='up'?'c-up':k.dir==='dn'?'c-dn':'c-flat';
-    return`<div class="kw-item"><span class="kw-no ${i<3?'hot':''}">${i+1}</span><span class="kw-word">${k.word}</span><div class="kw-bar-wrap"><div class="kw-bar-fill" style="width:${barW}%"></div></div><span class="kw-pct ${pctCls}">${pctStr}</span></div>`;
-  }).join('');
-}
-
-// 초기화
-updateSelectOptions();
 loadShopping();
-loadKeywords();
 </script>
 
 </body>
